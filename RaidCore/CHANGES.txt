@@ -1,0 +1,251 @@
+tag 9f2a93eb0ec8fe636e8af474d6a5462cd3018b4f 2.0
+Author:	NielsH <github@nuvini.com>
+Date:	Mon May 11 21:16:39 2015 +0200
+
+Release 2.0
+
+commit ef19ef4ca1ba829e5c1473523f04a8fbe062d8dd
+Author: NielsH <github@nuvini.com>
+Date:   Mon May 11 21:11:27 2015 +0200
+
+    Release 2.0
+    
+    Updated AddonVersion string to 15051101
+
+commit ef19ef4ca1ba829e5c1473523f04a8fbe062d8dd
+Author: NielsH <github@nuvini.com>
+Date:   Mon May 11 21:11:27 2015 +0200
+
+    Release 2.0
+    
+    Updated AddonVersion string to 15051101
+
+commit 47855c9430ed902ce164570ae4fb7ad10afca06d
+Author: NielsH <github@nuvini.com>
+Date:   Mon May 11 21:03:18 2015 +0200
+
+    Fix typo in ohmna, clean up some dead code, refs #68
+    
+    This commit fixes a typo for Ohmna. This might be the cause for the
+    pillar timer not working, but still needs testing if it's fully fixed
+    with this.
+    Also removes call to StopScan() since we no longer use this.
+
+commit 47855c9430ed902ce164570ae4fb7ad10afca06d
+Author: NielsH <github@nuvini.com>
+Date:   Mon May 11 21:03:18 2015 +0200
+
+    Fix typo in ohmna, clean up some dead code, refs #68
+    
+    This commit fixes a typo for Ohmna. This might be the cause for the
+    pillar timer not working, but still needs testing if it's fully fixed
+    with this.
+    Also removes call to StopScan() since we no longer use this.
+
+commit 652a29f9ca0cf90f46fa0ff492440c71d6158b5f
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Mon May 11 19:26:51 2015 +0200
+
+    Encounters/Y83: Add Prime Evolutionary Operant encounter, refs #91
+    
+    First feedback in easy mode.
+
+commit 652a29f9ca0cf90f46fa0ff492440c71d6158b5f
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Mon May 11 19:26:51 2015 +0200
+
+    Encounters/Y83: Add Prime Evolutionary Operant encounter, refs #91
+    
+    First feedback in easy mode.
+
+commit 99c6ce3e923b60135969834f26e91a5e022ca0a1
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Mon May 11 02:38:15 2015 +0200
+
+    Encounters/DS: Update LogicLife, refs #35
+    
+     - Replace buff identification string by spellId, refs #35
+     - Update french language
+     - delete useless function which is 'OnReset'.
+
+commit 641dcddcbfc6ec027697df610af1a586279d84c0
+Author: NielsH <github@nuvini.com>
+Date:   Sun May 10 23:04:55 2015 +0200
+
+    Fix call to StopBar() with incorrect key
+    
+    This commit fixes an issue with Kuralak where the StopBar() parameter
+    was the translation string, and not the actual key we used earlier when
+    adding the bar.
+
+commit 641dcddcbfc6ec027697df610af1a586279d84c0
+Author: NielsH <github@nuvini.com>
+Date:   Sun May 10 23:04:55 2015 +0200
+
+    Fix call to StopBar() with incorrect key
+    
+    This commit fixes an issue with Kuralak where the StopBar() parameter
+    was the translation string, and not the actual key we used earlier when
+    adding the bar.
+
+commit 99c6ce3e923b60135969834f26e91a5e022ca0a1
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Mon May 11 02:38:15 2015 +0200
+
+    Encounters/DS: Update LogicLife, refs #35
+    
+     - Replace buff identification string by spellId, refs #35
+     - Update french language
+     - delete useless function which is 'OnReset'.
+
+commit 641dcddcbfc6ec027697df610af1a586279d84c0
+Author: NielsH <github@nuvini.com>
+Date:   Sun May 10 23:04:55 2015 +0200
+
+    Fix call to StopBar() with incorrect key
+    
+    This commit fixes an issue with Kuralak where the StopBar() parameter
+    was the translation string, and not the actual key we used earlier when
+    adding the bar.
+
+commit 183d227d152e27861e0aa3052a1001cb92a0c60c
+Author: NielsH <github@nuvini.com>
+Date:   Sun May 10 21:25:19 2015 +0200
+
+    Fix world marker displayed on units not on screen, closes #90
+    
+    Previously we had already fixed the issue where world markers were
+    displayed on the wrong location on the screen when the position
+    coordinates were not on our screen. This commit extends that
+    functionality to marking of units as well.
+
+commit ddd22500d4a78092e0cce2b5ab5ae385fceda20c
+Author: NielsH <github@nuvini.com>
+Date:   Sat May 9 17:01:14 2015 +0200
+
+    Add option to decline summons, refs #100
+    
+    Raid leaders and assistants can force people to accept pending summons
+    via /raidc summon.
+    This will allow people to override that option in the settings, so
+    summons are no longer automatically accepted.
+
+commit ddd22500d4a78092e0cce2b5ab5ae385fceda20c
+Author: NielsH <github@nuvini.com>
+Date:   Sat May 9 17:01:14 2015 +0200
+
+    Add option to decline summons, refs #100
+    
+    Raid leaders and assistants can force people to accept pending summons
+    via /raidc summon.
+    This will allow people to override that option in the settings, so
+    summons are no longer automatically accepted.
+
+commit 79f1bf79ace7cb7eb0a23fd0697bd5851c403f47
+Author: NielsH <github@nuvini.com>
+Date:   Sat May 9 16:28:58 2015 +0200
+
+    Fix / Improve System Daemons World Markers
+    
+    System Daemons still had calls to the old method of World Markers so
+    they didn't work at all. This commit fixes that issue. It also
+    improves/reduces the code a bit by placing the markers via a loop
+    instead of separate calls.
+
+commit f67ed90d67484014e6c2d19703af70defed46fa3
+Author: NielsH <github@nuvini.com>
+Date:   Sat May 9 14:44:31 2015 +0200
+
+    Fix an issue that prevented OnReset() from working
+    
+    The RAID_WIPE event was fired after the encounter was disabled, at that
+    point it doesn't work so OnReset() was never called. Since this is
+    required for some fights, I moved the event handler so it fires before
+    disabling the module.
+    
+    This was an issue specifically on Avatus, where it only worked the first
+    pull, until another reloadui happened.
+
+commit f67ed90d67484014e6c2d19703af70defed46fa3
+Author: NielsH <github@nuvini.com>
+Date:   Sat May 9 14:44:31 2015 +0200
+
+    Fix an issue that prevented OnReset() from working
+    
+    The RAID_WIPE event was fired after the encounter was disabled, at that
+    point it doesn't work so OnReset() was never called. Since this is
+    required for some fights, I moved the event handler so it fires before
+    disabling the module.
+    
+    This was an issue specifically on Avatus, where it only worked the first
+    pull, until another reloadui happened.
+
+commit 79f1bf79ace7cb7eb0a23fd0697bd5851c403f47
+Author: NielsH <github@nuvini.com>
+Date:   Sat May 9 16:28:58 2015 +0200
+
+    Fix / Improve System Daemons World Markers
+    
+    System Daemons still had calls to the old method of World Markers so
+    they didn't work at all. This commit fixes that issue. It also
+    improves/reduces the code a bit by placing the markers via a loop
+    instead of separate calls.
+
+commit f67ed90d67484014e6c2d19703af70defed46fa3
+Author: NielsH <github@nuvini.com>
+Date:   Sat May 9 14:44:31 2015 +0200
+
+    Fix an issue that prevented OnReset() from working
+    
+    The RAID_WIPE event was fired after the encounter was disabled, at that
+    point it doesn't work so OnReset() was never called. Since this is
+    required for some fights, I moved the event handler so it fires before
+    disabling the module.
+    
+    This was an issue specifically on Avatus, where it only worked the first
+    pull, until another reloadui happened.
+
+commit 52dad220187609b133ea7455d1b86be4b1eb765e
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Fri May 8 22:42:18 2015 +0200
+
+    Workaround to enable HUD services in front of an encounter, refs #89
+
+commit ede7fed98b92bff157f8a63751df37f210d31b8e
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Fri May 8 22:33:37 2015 +0200
+
+    Encounters/DS: Fix bug on Gloomclaw, closes #73
+
+commit b8c9698c0de7c15117b686755784b7f2c102d62a
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Fri May 8 18:22:37 2015 +0200
+
+    Replace tab by spaces in toc.xml
+
+commit 2eb152b0aba700bb3872083f04cd7fd68d78e9e0
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Fri May 8 10:29:33 2015 +0200
+
+    Fix bar sprites for rclog windows
+    
+    Sprites weren't available with drop 5.
+
+commit 7bed5fcb50c82012d969533a1c1eaa63c43f6fbe
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Thu May 7 02:03:04 2015 +0200
+
+    Replace tabulation by spaces
+
+commit 7bed5fcb50c82012d969533a1c1eaa63c43f6fbe
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Thu May 7 02:03:04 2015 +0200
+
+    Replace tabulation by spaces
+
+commit f3208507d8dfc6935ad41120cc9e06cfdc35a220
+Author: Imm├⌐ sama <immemor@users.noreply.github.com>
+Date:   Thu May 7 01:39:01 2015 +0200
+
+    Remove all dead code
+
