@@ -16,6 +16,9 @@ local mod = core:NewEncounter("GalerasTest", 6, 0, 16)
 --@end-alpha@
 if not mod then return end
 
+local bufflock = false
+local bltimer = nil
+
 mod:RegisterTrigMob("ANY", { "Crimson Spiderbot", "Crimson Clanker" })
 mod:RegisterEnglishLocale({
     -- Unit names.
@@ -33,8 +36,56 @@ mod:RegisterFrenchLocale({
 function mod:OnBossEnable()
     Apollo.RegisterEventHandler("RC_UnitCreated", "OnUnitCreated", self)
     Apollo.RegisterEventHandler("RC_UnitStateChanged", "OnUnitStateChanged", self)
+
     Apollo.RegisterEventHandler("SPELL_CAST_START", "OnSpellCastStart", self)
     Apollo.RegisterEventHandler("SPELL_CAST_END", "OnSpellCastEnd", self)
+
+	Apollo.RegisterEventHandler("BUFF_APPLIED", "OnGTBuffApplied", self)
+	
+	Apollo.RegisterEventHandler("DEBUFF_APPLIED", "OnDebuffApplied", self)
+	
+	Apollo.RegisterEventHandler("RAID_WIPE", "OnRWGT", self)
+end
+
+function mod:OnRWGT()
+	--Apollo.RemoveEventHandler
+
+	Print("in gt wipe")
+	--self = nil
+end
+
+--	Apollo.RemoveEventHandler("DEBUFF_APPLIED", self)
+function mod:lockhandler()
+	--Print("in lockhandler")
+	bufflock = false
+end
+
+function mod:OnGTBuffApplied(unitName, splId, unit)
+	--[[local tSpell = GameLib.GetSpell(splId)
+	local strSpellName
+	if tSpell then
+		strSpellName = tostring(tSpell:GetName())
+	else
+		Print("Unknown tSpell")
+	end--]]
+	--if bufflock then return end
+
+
+	bufflock = true
+	Print("received buff signal")
+	if splId == 42803 then
+		core:AddMsg("BLUEPURGE", "PURGE BLUE BOSS", 5, "Inferno")
+		Print("Shatter: " .. splId)
+		
+	end
+	bufflock = false
+	--bltimer = ApolloTimer.Create(0.01, false, "lockhandler", self)
+	
+	--Apollo.RegisterEventHandler("DEBUFF_APPLIED", "OnDebuffApplied", self)
+end
+
+function mod:OnDebuffApplied(unitName, splId, unit)
+	Print("received debuff signal")
 end
 
 function mod:OnUnitCreated(unit, sName)
@@ -44,12 +95,16 @@ function mod:OnUnitCreated(unit, sName)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
+	pUnit = GameLib.GetPlayerUnit()
     if bInCombat then
         if sName == self.L["Crimson Spiderbot"] then
             core:WatchUnit(unit)
             core:AddUnit(unit)
             core:MarkUnit(unit, 1, "X")
-        end
+			core:WatchUnit(pUnit)
+            core:AddUnit(pUnit)
+            core:MarkUnit(pUnit , 1, "X")
+		end
     end
 end
 

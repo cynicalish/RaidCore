@@ -693,7 +693,7 @@ function RaidCore:OnRaidCoreOn(cmd, args)
 		else
 			bAcceptSummons = true
 		end
-    elseif (tAllParams[1] == "buff") then
+    --[[elseif (tAllParams[1] == "buff") then
         local unit = GameLib.GetTargetUnit()
         if unit ~= nil then
             local id = unit:GetId()
@@ -702,7 +702,7 @@ function RaidCore:OnRaidCoreOn(cmd, args)
                 ["unit"] = unit,
                 ["aura"] = {},
             }
-        end
+        end--]]
     elseif (tAllParams[1] == "debuff") then
         local unit = GameLib.GetTargetUnit()
         if unit ~= nil then
@@ -963,33 +963,8 @@ end
 function RaidCore:UnitBuff(unit)
     if unit then
         local id = unit:GetId()
-        if id and not unit:IsDead() and not self.buffs[id] then
+        if id and not unit:IsDead() then
             self:CombatInterface_Track(id)
-            self.buffs[id] = {
-                ["unit"] = unit,
-                ["aura"] = {},
-            }
-        end
-    end
-end
-
-function RaidCore:UnitDebuff(unit)
-    if unit then
-        local id = unit:GetId()
-        if id and not unit:IsDead() and not self.debuffs[id] then
-            self.debuffs[id] = {
-                ["unit"] = unit,
-                ["aura"] = {},
-            }
-        end
-    end
-end
-
-function RaidCore:RaidDebuff()
-    for i = 1, GroupLib.GetMemberCount() do
-        local unit = GroupLib.GetUnitForGroupMember(i)
-        if unit then
-            self:UnitDebuff(unit)
         end
     end
 end
@@ -1140,16 +1115,14 @@ function RaidCore:OnCastEnd(nId, sCastName, bInterrupted)
 end
 
 function RaidCore:OnBuffAdd(dUnit, nSpellId, nStack)
-    --local buffs = self.buffs[nId]
     if dUnit then
-        --unit = buffs.unit
         local unitName = dUnit:GetName():gsub(NO_BREAK_SPACE, " ")
+		--Print("Buff applied signal")
         Event_FireGenericEvent("BUFF_APPLIED", unitName, nSpellId, dUnit)
     end
 end
 
 function RaidCore:OnBuffRemove(dUnit, nSpellId, nStack)
-    --local debuffs = self.debuffs[nId]
     if dUnit then
         local unitName = dUnit:GetName():gsub(NO_BREAK_SPACE, " ")
         Event_FireGenericEvent("BUFF_REMOVED", unitName, nSpellId, dUnit)
@@ -1157,26 +1130,20 @@ function RaidCore:OnBuffRemove(dUnit, nSpellId, nStack)
 end
 
 function RaidCore:OnBuffUpdate(dUnit, nSpellId, nOldStack, nNewStack)
-    --local debuffs = self.debuffs[nId]
     if dUnit then
         local unitName = dUnit:GetName():gsub(NO_BREAK_SPACE, " ")
-        Event_FireGenericEvent("BUFF_APPLIED_DOSE", unitName, nSpellId, nStack)
+        Event_FireGenericEvent("BUFF_APPLIED_DOSE", unitName, nSpellId, nNewStack)
     end
 end
 
 function RaidCore:OnDebuffAdd(dUnit, nSpellId, nStack)
-	--Print("In DebuffAdd")
-    --local debuffs = self.debuffs[nId]
     if dUnit then
         local unitName = dUnit:GetName():gsub(NO_BREAK_SPACE, " ")
-		--Print("firing debuff")
-		--Print(unitName)
         Event_FireGenericEvent("DEBUFF_APPLIED", unitName, nSpellId, dUnit)
     end
 end
 
 function RaidCore:OnDebuffRemove(dUnit, nSpellId)
-    --local debuffs = self.debuffs[nId]
     if dUnit then
         local unitName = dUnit:GetName():gsub(NO_BREAK_SPACE, " ")
         Event_FireGenericEvent("DEBUFF_REMOVED", unitName, nSpellId, dUnit)
@@ -1184,10 +1151,9 @@ function RaidCore:OnDebuffRemove(dUnit, nSpellId)
 end
 
 function RaidCore:OnDebuffUpdate(dUnit, nSpellId, nOldStack, nNewStack)
-    --local debuffs = self.debuffs[nId]
     if dUnit then
         local unitName = dUnit:GetName():gsub(NO_BREAK_SPACE, " ")
-        Event_FireGenericEvent("DEBUFF_APPLIED_DOSE", unitName, nSpellId, nStack)
+        Event_FireGenericEvent("DEBUFF_APPLIED_DOSE", unitName, nSpellId, nNewStack)
     end
 end
 
