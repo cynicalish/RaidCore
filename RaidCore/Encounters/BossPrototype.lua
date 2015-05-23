@@ -89,8 +89,6 @@ function EncounterPrototype:OnDisable()
 	Apollo.RemoveEventHandler("DEBUFF_APPLIED", self)
 	Apollo.RemoveEventHandler("DEBUFF_REMOVED", self)
 	Apollo.RemoveEventHandler("DEBUFF_APPLIED_DOSE", self)
-	
-	Apollo.RemoveEventHandler("RAID_WIPE", self)
 end
 
 function EncounterPrototype:Reboot(isWipe)
