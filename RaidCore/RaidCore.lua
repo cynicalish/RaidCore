@@ -49,7 +49,7 @@ local _tCurrentEncounter = nil
 
 local trackMaster = Apollo.GetAddon("TrackMaster")
 local markCount = 0
-local AddonVersion = 05211502
+local AddonVersion = 05241501
 local VCReply, VCtimer = {}, nil
 local CommChannelTimer = nil
 local empCD, empTimer = 5, nil
