@@ -26,6 +26,7 @@ function DisplayBlock.new(xmlDoc)
         Width = 300,
         Height = 25
     }
+	self.barType = 1
 
     Apollo.RegisterEventHandler("UnitDestroyed", "OnUnitDestroyed", self)
     return self
@@ -65,6 +66,9 @@ function DisplayBlock:Load(saveData)
         self.anchorFromTop = saveData.anchorFromTop
     end
 
+	if saveData.barType ~= nil then 
+		self.barType = saveData.barType
+	end
 end
 
 function DisplayBlock:GetSaveData()
@@ -76,6 +80,7 @@ function DisplayBlock:GetSaveData()
         Position = { left, top },
         anchorFromTop = self.anchorFromTop,
         barSize = self.barSize,
+		barType = self.barType,
     }
     return saveData
 end
@@ -134,7 +139,7 @@ function DisplayBlock:SetBarHeight(height)
     self.itemList:ArrangeChildrenVert(self:GetAnchorPoint())
 end
 
-function DisplayBlock:AddBar(key, message, duration)
+function DisplayBlock:AddBar(key, message, duration, btype)
     if self.isEnabled then
         local timeOfEvent = GameLib.GetGameTime()
         if self.infos[key] == nil then
@@ -143,9 +148,9 @@ function DisplayBlock:AddBar(key, message, duration)
             self.infos[key].endTime = timeOfEvent + duration
             self.infos[key].duration = duration
             self.infos[key].message = message
-            local raidBar = self:CreateBar(key, message, duration, 1)
+            local raidBar = self:CreateBar(key, message, duration, btype)
             self.infos[key].barFrame = raidBar
-            self.infos[key].type = 1
+            self.infos[key].type = btype
         else
             self.infos[key].endTime = timeOfEvent + duration
             self.infos[key].duration = duration
@@ -197,7 +202,7 @@ function DisplayBlock:RebuildList()
     end
 end
 
-function DisplayBlock:AddUnit(unit, mark)
+function DisplayBlock:AddUnit(unit, mark, btype)
     if self.isEnabled then
         local key = unit:GetId()
         if self.infos[key] == nil and not unit:IsDead() then
@@ -207,7 +212,7 @@ function DisplayBlock:AddUnit(unit, mark)
             if maxHealth then
                 self.infos[key] = {}
                 self.infos[key].unit = unit
-                local raidBar = self:CreateBar(key, unitName, maxHealth, 2, mark)
+                local raidBar = self:CreateBar(key, unitName, maxHealth, btype, mark)
                 self.infos[key].barFrame = raidBar
                 local health = unit:GetHealth()
                 if health then
@@ -277,7 +282,7 @@ function DisplayBlock:AddMsg(key, message, duration, sound, color)
                 end
             end
             self.infos[key].barFrame = raidBar
-            self.infos[key].type = 3
+            self.infos[key].type = -1
             self.itemList:ArrangeChildrenVert(self:GetAnchorPoint())
             local bSoundEnabled = self.RaidCore:GetSettings()["General"]["bSoundEnabled"]
             if sound and bSoundEnabled then
@@ -334,8 +339,8 @@ function DisplayBlock:ClearAll()
     self.itemList:ArrangeChildrenVert(self:GetAnchorPoint())
 end
 
-function DisplayBlock:CreateBar(key, message, maxTime, type, mark)
-    local bar = RaidCoreLibs.DisplayBar.new(self.xmlDoc, key, message, maxTime, type, self)
+function DisplayBlock:CreateBar(key, message, maxTime, btype, mark)
+    local bar = RaidCoreLibs.DisplayBar.new(self.xmlDoc, key, message, maxTime, btype, self)
     bar:SetBGColor(self.bgColor)
     bar:SetBarColor(self.barColor)
     bar:SetHeight(self.barSize.Height)

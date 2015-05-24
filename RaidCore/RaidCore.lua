@@ -64,6 +64,7 @@ local DefaultSettings = {
             },
             anchorFromTop = true,
             barColor = "ff00007f",
+			barType = 1,
         },
         message = {
             isEnabled = true,
@@ -81,6 +82,7 @@ local DefaultSettings = {
             },
             anchorFromTop = true,
             barColor = "ff00007f",
+			barType = 1,
         },
         bSoundEnabled = true,
         bAcceptSummons = false,
@@ -857,7 +859,7 @@ function RaidCore:OnCheckMapZone()
 end
 
 function RaidCore:AddBar(key, message, duration, emphasize)
-    self.raidbars:AddBar(key, message, duration)
+    self.raidbars:AddBar(key, message, duration, self.settings["General"]["raidbars"]["barType"])
     if emphasize then
         self:AddEmphasize(key, duration)
     end
@@ -926,7 +928,7 @@ function RaidCore:AddUnit(unit)
     if self.mark[unit:GetId()] then
         marked = self.mark[unit:GetId()].number
     end
-    self.unitmoni:AddUnit(unit, marked)
+    self.unitmoni:AddUnit(unit, marked, self.settings["General"]["unitmoni"]["barType"])
 end
 
 function RaidCore:RemoveUnit(unitId)
@@ -1621,5 +1623,35 @@ function RaidCore:OnModuleSettingsUncheck(wndHandler, wndControl, eMouseButton )
     local raidInstance = self:SplitString(wndControl:GetParent():GetName(), "_")
     local identifier = self:SplitString(wndControl:GetName(), "_")
     self.wndSettings[raidInstance[2]][identifier[3]]:Show(false)
+end
+
+
+---------------------------------------------------------------------------------------------------
+-- ConfigForm_General Functions
+---------------------------------------------------------------------------------------------------
+
+
+function RaidCore:onBarTypeCheck( wndHandler, wndControl, eMouseButton )
+	if wndControl then
+		local tstring = self:SplitString(wndControl:GetName(), "_")
+		local tval = tonumber(tstring[2])
+		self.settings["General"][tstring[1]]["barType"] = tonumber(tstring[2])
+		
+		self[tstring[1]]:Load(self.settings["General"][tstring[1]])
+	end
+end
+
+function RaidCore:onWindowLoadBarType( wndHandler, wndControl )
+	if wndControl then
+		local tstring = self:SplitString(wndControl:GetName(), "_")
+		local tval = tonumber(tstring[2])
+		local val = self.settings["General"][tstring[1]]["barType"]
+		--Print(wndControl:GetName() .. " vs " .. self.settings["General"][tstring[1]]["barType"])
+		if tval == val then 
+			wndControl:SetCheck(true)
+		else
+			wndControl:SetCheck(false)
+		end
+	end
 end
 
