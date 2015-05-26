@@ -90,6 +90,7 @@ end
 
 function mod:OnUnitCreated(unit, sName)
     if sName == self.L["Crimson Spiderbot"] then
+		Print("unit spawned")
         core:MarkUnit(unit, 1, "A")
     end
 end
@@ -101,9 +102,13 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             core:WatchUnit(unit)
             core:AddUnit(unit)
             core:MarkUnit(unit, 1, "X")
-			core:WatchUnit(pUnit)
+			core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
+
+			--core:WatchUnit(pUnit)
+			core:UnitBuff(pUnit)
             core:AddUnit(pUnit)
-            core:MarkUnit(pUnit , 1, "X")
+            --core:MarkUnit(pUnit , nil, "Incubation")
+			--core:AddPixie(pUnit:GetId(), 2, pUnit, nil, "Red", 10, 70, -30)
 		end
     end
 end

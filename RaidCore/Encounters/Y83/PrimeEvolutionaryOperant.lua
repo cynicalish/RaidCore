@@ -170,7 +170,9 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             core:MarkUnit(unit, 1, "M")
             core:WatchUnit(unit)
             core:AddBar("NEXT_IRRADIATE", self.L["~Next irradiate"], 27, true)
-        end
+        elseif "Organic Incinerator" == sName then
+			core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
+		end
     end
 end
 

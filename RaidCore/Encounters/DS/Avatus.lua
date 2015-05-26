@@ -102,7 +102,7 @@ mod:RegisterGermanLocale({
 })
 
 local phase2warn, phase2 = false, false
-local phase_blueroom = false
+local phase2_blueroom = false
 local phase2_blueroom_rotation = {}
 local encounter_started = false
 local redBuffCount, greenBuffCount, blueBuffCount = 1
@@ -113,6 +113,8 @@ local gungrid_timer = 20
 -- 40man: first after 93sec, after that every 37 sec. - 20m: first after 69sec, after that every 37 sec
 local obliteration_beam_timer = 69
 local holo_hands = {}
+local sCannonSpawn = 22.5
+
 local strMyName
 local NO_BREAK_SPACE = string.char(194, 160)
 
@@ -226,7 +228,7 @@ end
 
 function mod:OnReset()
     phase2warn, phase2 = false, false
-    phase_blueroom = false
+    phase2_blueroom = false
     phase2_blueroom_rotation = {}
     redBuffCount = 1
     greenBuffCount = 1
@@ -243,6 +245,7 @@ end
 
 function mod:OnUnitCreated(unit, sName)
     local eventTime = GameLib.GetGameTime()
+	--Print("unit created: " .. sName)
     if sName == self.L["Holo Hand"] then
         local unitId = unit:GetId()
         core:AddUnit(unit)
@@ -270,11 +273,13 @@ function mod:OnUnitCreated(unit, sName)
         core:AddPixie(unit:GetId(), 2, unit, nil, "Blue", 5, -7, 0)
     elseif sName == self.L["Support Cannon"] then
         core:AddUnit(unit)
-    elseif sName == self.L["Infinite Logic Loop"] then -- blue
+		core:AddBar("SCANNON", "Support Cannon Spawn", sCannonSpawn, true)
+    --[[elseif sName == self.L["Infinite Logic Loop"] then -- blue
         -- TESTING BLUE ROOM:
+		Print("blue room true")
         core:AddUnit(unit)
-        core:UnitBuff(unit)
-        phase2_blueroom = true
+        core:WatchUnit(unit)
+        phase2_blueroom = true --]]
     end
 end
 
@@ -311,7 +316,6 @@ function mod:OnBuffApplied(unitName, splId, unit)
         else
             Print("Unknown tSpell")
         end
-
         -- Todo change to SplId instead of name to reduce API calls
         if strSpellName == "Green Reconstitution Matrix" then
             local playerAssigned = getPlayerAssignment(phase2_blueroom_rotation["green"])
@@ -452,6 +456,7 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             core:AddUnit(unit)
             core:WatchUnit(unit)
             if mod:GetSetting("LineCleaveBoss") then
+						            --key, type, uStart, uTarget, color, width, distance, rotation, heading
                 core:AddPixie(unit:GetId(), 2, unit, nil, "Green", 10, 22, 0)
             end
 
@@ -468,6 +473,10 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             gungrid_timer = 112
             obliteration_beam_timer = 37
         elseif sName == self.L["Infinite Logic Loop"] then
+			core:AddUnit(unit)
+        	core:WatchUnit(unit)
+        	phase2_blueroom = true
+
             local strRedBuffs = "Red Buffs:"
             local strGreenBuffs = "Green Buffs:"
             local strBlueBuffs = "Blue Buffs:"
