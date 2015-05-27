@@ -64,7 +64,7 @@ local DefaultSettings = {
             },
             anchorFromTop = true,
             barColor = "ff00007f",
-			barType = 1,
+			bType = {	1,	false},
         },
         message = {
             isEnabled = true,
@@ -82,7 +82,7 @@ local DefaultSettings = {
             },
             anchorFromTop = true,
             barColor = "ff00007f",
-			barType = 1,
+			bType = {	1,	true},
         },
         bSoundEnabled = true,
         bAcceptSummons = false,
@@ -845,9 +845,18 @@ function RaidCore:OnCheckMapZone()
                 end
             end
             if bSearching then
+				--Print("in bSearching")
+				--Print(tostring(tMap.id))
+				if tMap.id == 475 then
+					Apollo.RegisterEventHandler("UnitCreated", "PreCombatDetect_Y83", self)
+				elseif tMap.id == 16 then
+					Print("map id found")
+					Apollo.RegisterEventHandler("UnitCreated", "TPreCombatDetect", self)
+				end
                 self:CombatInterface_Activate("DetectCombat")
                 _tHUDtimer:Start()
             else
+				Apollo.RemoveEventHandler("UnitCreated", self)
                 _tHUDtimer:Stop()
                 self:CombatInterface_Activate("Disable")
                 self:ResetAll()
@@ -859,7 +868,7 @@ function RaidCore:OnCheckMapZone()
 end
 
 function RaidCore:AddBar(key, message, duration, emphasize)
-    self.raidbars:AddBar(key, message, duration, self.settings["General"]["raidbars"]["barType"])
+    self.raidbars:AddBar(key, message, duration, self.settings["General"]["raidbars"]["bType"])
     if emphasize then
         self:AddEmphasize(key, duration)
     end
@@ -928,7 +937,7 @@ function RaidCore:AddUnit(unit)
     if self.mark[unit:GetId()] then
         marked = self.mark[unit:GetId()].number
     end
-    self.unitmoni:AddUnit(unit, marked, self.settings["General"]["unitmoni"]["barType"])
+    self.unitmoni:AddUnit(unit, marked, self.settings["General"]["unitmoni"]["bType"])
 end
 
 function RaidCore:RemoveUnit(unitId)
@@ -1635,7 +1644,7 @@ function RaidCore:onBarTypeCheck( wndHandler, wndControl, eMouseButton )
 	if wndControl then
 		local tstring = self:SplitString(wndControl:GetName(), "_")
 		local tval = tonumber(tstring[2])
-		self.settings["General"][tstring[1]]["barType"] = tonumber(tstring[2])
+		self.settings["General"][tstring[1]]["bType"][1] = tonumber(tstring[2])
 		
 		self[tstring[1]]:Load(self.settings["General"][tstring[1]])
 	end
@@ -1645,7 +1654,7 @@ function RaidCore:onWindowLoadBarType( wndHandler, wndControl )
 	if wndControl then
 		local tstring = self:SplitString(wndControl:GetName(), "_")
 		local tval = tonumber(tstring[2])
-		local val = self.settings["General"][tstring[1]]["barType"]
+		local val = self.settings["General"][tstring[1]]["bType"][1]
 		--Print(wndControl:GetName() .. " vs " .. self.settings["General"][tstring[1]]["barType"])
 		if tval == val then 
 			wndControl:SetCheck(true)

@@ -8,6 +8,8 @@ setmetatable(DisplayBar, {
     end,
 })
 
+--local self.Frame = nil
+
 function DisplayBar.new(xmlDoc, key, message, maxTime, type, block)
     local self = setmetatable({}, DisplayBar)
     self.Key = key
@@ -19,31 +21,31 @@ function DisplayBar.new(xmlDoc, key, message, maxTime, type, block)
     self.Frame = Apollo.LoadForm(xmlDoc, "BarTemplate", block.barsFrame:FindChild("ItemList"), self)
     self.Frame:FindChild("Text"):SetText(message)
 	
-	if type == 1 then
+	if type[1] == 1 then
         self.Frame:FindChild("RemainingOverlay"):SetMax(maxTime)
         self.Frame:SetSprite("RaidCoreMinimalist")
         self.Frame:FindChild("RemainingOverlay"):SetFullSprite("RaidCoreMinimalist")
-	elseif type == 2 then
+	elseif type[1] == 2 then
         self.Frame:FindChild("RemainingOverlay"):SetMax(maxTime)
         self.Frame:SetSprite("restrat1")
         self.Frame:FindChild("RemainingOverlay"):SetFullSprite("restrat1")
-	elseif type == 3 then
+	elseif type[1] == 3 then
         self.Frame:FindChild("RemainingOverlay"):SetMax(maxTime)
         self.Frame:SetSprite("smooth")
         self.Frame:FindChild("RemainingOverlay"):SetFullSprite("smooth")
-	elseif type == 4 then
+	elseif type[1] == 4 then
         self.Frame:FindChild("RemainingOverlay"):SetMax(maxTime)
         self.Frame:SetSprite("gradient")
         self.Frame:FindChild("RemainingOverlay"):SetFullSprite("gradient")
-	elseif type == 5 then
+	elseif type[1] == 5 then
         self.Frame:FindChild("RemainingOverlay"):SetMax(maxTime)
         self.Frame:SetSprite("glaze")
         self.Frame:FindChild("RemainingOverlay"):SetFullSprite("glaze")
-	elseif type == 6 then
+	elseif type[1] == 6 then
         self.Frame:FindChild("RemainingOverlay"):SetMax(maxTime)
         self.Frame:SetSprite("3dbar")
         self.Frame:FindChild("RemainingOverlay"):SetFullSprite("3dbar")
-    elseif type > 0 then
+    elseif type[1] > 0 then
         self.Frame:FindChild("RemainingOverlay"):SetMax(maxTime)
         self.Frame:SetSprite("RaidCoreMinimalist")
         self.Frame:FindChild("RemainingOverlay"):SetFullSprite("RaidCoreMinimalist")
@@ -79,12 +81,10 @@ function DisplayBar:ReloadBar(message, maxTime)
     self.Frame:FindChild("RemainingOverlay"):SetMax(maxTime)
 end
 
-function DisplayBar:UpdateProgress(timeRemaining) 
-    self.Frame:FindChild("RemainingOverlay"):SetProgress(timeRemaining)
+function DisplayBar:UpdateProgress(timeRemaining)
+	self.Frame:FindChild("RemainingOverlay"):SetProgress(timeRemaining)
     if timeRemaining ~= 0 then
-        if self.Type == 1 then
-            self.Frame:FindChild("Timer"):SetText(string.format("%.1fs", timeRemaining))
-        elseif self.Type == 2 then
+        if self.Type[2] then
             local percent = math.floor(timeRemaining / self.MaxTime * 100)
             if percent ~= self.lastPct then
                 self.lastPct = percent
@@ -96,6 +96,8 @@ function DisplayBar:UpdateProgress(timeRemaining)
             else
                 self.Frame:FindChild("Timer"):SetText(string.format("%.0f%%", math.floor(timeRemaining / self.MaxTime) * 100))
             end
+		elseif self.Type[1] > 0 then
+            self.Frame:FindChild("Timer"):SetText(string.format("%.1fs", timeRemaining))
         end
     else
         self.Frame:FindChild("Timer"):SetText("")

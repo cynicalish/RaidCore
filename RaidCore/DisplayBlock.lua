@@ -26,7 +26,7 @@ function DisplayBlock.new(xmlDoc)
         Width = 300,
         Height = 25
     }
-	self.barType = 1
+	self.bType = {1, false}
 
     Apollo.RegisterEventHandler("UnitDestroyed", "OnUnitDestroyed", self)
     return self
@@ -66,8 +66,8 @@ function DisplayBlock:Load(saveData)
         self.anchorFromTop = saveData.anchorFromTop
     end
 
-	if saveData.barType ~= nil then 
-		self.barType = saveData.barType
+	if saveData.bType ~= nil then 
+		self.bType = saveData.bType
 	end
 end
 
@@ -80,7 +80,7 @@ function DisplayBlock:GetSaveData()
         Position = { left, top },
         anchorFromTop = self.anchorFromTop,
         barSize = self.barSize,
-		barType = self.barType,
+		bType = self.bType,
     }
     return saveData
 end

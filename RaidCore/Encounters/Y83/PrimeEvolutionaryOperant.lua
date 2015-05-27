@@ -29,6 +29,7 @@ mod:RegisterEnglishLocale({
     ["Prime Evolutionary Operant"] = "Prime Evolutionary Operant",
     ["Prime Phage Distributor"] = "Prime Phage Distributor",
     ["Sternum Buster"] = "Sternum Buster",
+	["Organic Incinerator"] = "Organic Incinerator",
     -- Datachron messages.
     ["(.*) is being irradiated"] = "(.*) is being irradiated",
     ["ENGAGING TECHNOPHAGE TRASMISSION"] = "ENGAGING TECHNOPHAGE TRASMISSION",
@@ -109,6 +110,21 @@ end
 function mod:OnUnitCreated(unit, sName)
 	if "Organic Incinerator" == sName then
 			core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
+	end
+end
+
+function mod:GetL()
+	return self.L
+end
+
+function core:PreCombatDetect_Y83(unit)
+	--Print("in precombat")
+	if unit then
+		--Print(unit:GetName())
+		if unit:GetName() == mod:GetL()["Organic Incinerator"] then
+			--Print("unit found")
+			core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
+		end
 	end
 end
 

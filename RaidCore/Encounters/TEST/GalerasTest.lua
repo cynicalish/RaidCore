@@ -45,6 +45,7 @@ function mod:OnBossEnable()
 	Apollo.RegisterEventHandler("DEBUFF_APPLIED", "OnDebuffApplied", self)
 	
 	Apollo.RegisterEventHandler("RAID_WIPE", "OnRWGT", self)
+	--Apollo.RegisterEventHandler("UnitCreated", "OnUCDrawLine", self)
 end
 
 function mod:OnRWGT()
@@ -76,7 +77,7 @@ function mod:OnGTBuffApplied(unitName, splId, unit)
 	if splId == 42803 then
 		core:AddMsg("BLUEPURGE", "PURGE BLUE BOSS", 5, "Inferno")
 		Print("Shatter: " .. splId)
-		
+		core:AddBar("CCCOOLDOWN", "Shatter CD", 17, true)
 	end
 	bufflock = false
 	--bltimer = ApolloTimer.Create(0.01, false, "lockhandler", self)
@@ -92,8 +93,34 @@ function mod:OnUnitCreated(unit, sName)
     if sName == self.L["Crimson Spiderbot"] then
 		Print("unit spawned")
         core:MarkUnit(unit, 1, "A")
+		
     end
 end
+
+function mod:GetL()
+	return self.L
+end
+
+function core:TPreCombatDetect(unit)
+	--Print("in precombat")
+	if unit then
+		--Print(unit:GetName())
+		if unit:GetName() == mod:GetL()["Crimson Spiderbot"] then
+			Print("unit found")
+			--core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
+		end
+	end
+end
+
+--[[function mod:OnUCDrawLine(unit)
+	Print("in ucdraw")
+	if unit then
+		if unit:GetName() == self.L["Crimson Spiderbot"] then
+			Print("unit found")
+			core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
+		end
+	end
+end--]]
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
 	pUnit = GameLib.GetPlayerUnit()
@@ -102,13 +129,20 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             core:WatchUnit(unit)
             core:AddUnit(unit)
             core:MarkUnit(unit, 1, "X")
-			core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
+			
 
 			--core:WatchUnit(pUnit)
 			core:UnitBuff(pUnit)
             core:AddUnit(pUnit)
             --core:MarkUnit(pUnit , nil, "Incubation")
 			--core:AddPixie(pUnit:GetId(), 2, pUnit, nil, "Red", 10, 70, -30)
+			--GameLib.Getun
+			local temp = GameLib.GetPlayerUnitByName("Crimson Spiderbot")
+			if temp then
+				Print(temp:GetName())
+			else
+				Print("not found")
+			end
 		end
     end
 end
