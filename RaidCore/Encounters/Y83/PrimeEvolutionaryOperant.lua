@@ -83,6 +83,7 @@ local BUFF_COMPROMISED_CIRCUITRY = 48735
 ----------------------------------------------------------------------------------------------------
 function mod:OnBossEnable()
 	Print(("Module %s loaded"):format(mod.ModuleName))
+	Apollo.RegisterEventHandler("RC_UnitCreated", "OnUnitCreated", self)
     Apollo.RegisterEventHandler("RC_UnitStateChanged", "OnUnitStateChanged", self)
     Apollo.RegisterEventHandler("CHAT_DATACHRON", "OnChatDC", self)
 
@@ -103,6 +104,12 @@ end
 function mod:OnReset()
 	--Print("wipe")
 	core:ResetMarks()
+end
+
+function mod:OnUnitCreated(unit, sName)
+	if "Organic Incinerator" == sName then
+			core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
+	end
 end
 
 function mod:OnDebuffApplied(unitName, splId, unit)
@@ -170,8 +177,6 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             core:MarkUnit(unit, 1, "M")
             core:WatchUnit(unit)
             core:AddBar("NEXT_IRRADIATE", self.L["~Next irradiate"], 27, true)
-        elseif "Organic Incinerator" == sName then
-			core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
 		end
     end
 end
