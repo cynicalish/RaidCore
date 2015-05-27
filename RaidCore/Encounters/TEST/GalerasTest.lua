@@ -91,7 +91,7 @@ end
 
 function mod:OnUnitCreated(unit, sName)
     if sName == self.L["Crimson Spiderbot"] then
-		Print("unit spawned")
+		--Print("unit spawned")
         core:MarkUnit(unit, 1, "A")
 		
     end
@@ -106,7 +106,7 @@ function core:TPreCombatDetect(unit)
 	if unit then
 		--Print(unit:GetName())
 		if unit:GetName() == mod:GetL()["Crimson Spiderbot"] then
-			Print("unit found")
+			--Print("unit found")
 			--core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
 		end
 	end

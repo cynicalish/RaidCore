@@ -850,8 +850,8 @@ function RaidCore:OnCheckMapZone()
 				if tMap.id == 475 then
 					Apollo.RegisterEventHandler("UnitCreated", "PreCombatDetect_Y83", self)
 				elseif tMap.id == 16 then
-					Print("map id found")
-					Apollo.RegisterEventHandler("UnitCreated", "TPreCombatDetect", self)
+					--Print("map id found")
+					--Apollo.RegisterEventHandler("UnitCreated", "TPreCombatDetect", self)
 				end
                 self:CombatInterface_Activate("DetectCombat")
                 _tHUDtimer:Start()
