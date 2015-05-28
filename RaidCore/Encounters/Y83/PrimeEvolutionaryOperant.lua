@@ -124,7 +124,7 @@ end
 
 function mod:OnSpellCastStart(unitName, castName, unit)
     if castName == "Strain Injection" then
-        core:AddMsg("INJECTION", "Strain Incubation incoming!!", 5, "Info", "Red")
+        core:AddMsg("INJECTION", "Strain Incubation incoming!!", 2 , "Info", "Red")
     end
 end
 
