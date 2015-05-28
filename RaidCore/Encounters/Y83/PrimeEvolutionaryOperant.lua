@@ -94,8 +94,10 @@ function mod:OnBossEnable()
 	Apollo.RemoveEventHandler("DEBUFF_REMOVED", self)
 	
     Apollo.RegisterEventHandler("DEBUFF_APPLIED", "OnDebuffApplied", self)
-
  	Apollo.RegisterEventHandler("DEBUFF_REMOVED", "OnDebuffRemoved", self)
+
+    Apollo.RegisterEventHandler("SPELL_CAST_START", "OnSpellCastStart", self)
+    Apollo.RegisterEventHandler("SPELL_CAST_END", "OnSpellCastEnd", self)
 
     Apollo.RegisterEventHandler("RAID_WIPE", "OnReset", self)
 	
@@ -118,6 +120,15 @@ end
 
 function mod:OnUnitCreated(unit, sName)
 	
+end
+
+function mod:OnSpellCastStart(unitName, castName, unit)
+    if castName == "Strain Injection" then
+        core:AddMsg("INJECTION", "Strain Incubation incoming!!", 5, "Info", "Red")
+    end
+end
+
+function mod:OnSpellCastEnd(unitName, castName, unit)
 end
 
 function mod:GetL()
@@ -157,7 +168,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 		--Print("in strain incubation")
         core:MarkUnit(unit, nil, "Incubation")
 		if unit == GetPlayerUnit() then
-			core:AddMsg("INCUBATION", ("Strain Incubation on YOU!!"), 5, "Inferno", "Red")
+			core:AddMsg("INCUBATION", "Strain Incubation on YOU!!", 5, "Beware", "Red")
 		end
 	elseif splId == DEBUFF_RADIATION_BATH then
 		if unit == GetPlayerUnit() then
@@ -225,7 +236,7 @@ function mod:AddY83()
 	end
 	
 	--Print("table size: " .. tostring(#self.lineList))
-	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Red", 10, 100, -30)
+	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Red", 10, 100, -60)
 end
 
 function mod:OnChatDC(message)
