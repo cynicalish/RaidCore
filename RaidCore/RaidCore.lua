@@ -848,6 +848,7 @@ function RaidCore:OnCheckMapZone()
 				--Print("in bSearching")
 				--Print(tostring(tMap.id))
 				if tMap.id == 475 then
+					Apollo.RemoveEventHandler("UnitCreated", self)
 					Apollo.RegisterEventHandler("UnitCreated", "PreCombatDetect_Y83", self)
 				elseif tMap.id == 16 then
 					--Print("map id found")

@@ -23,7 +23,9 @@ local core = Apollo.GetPackage("Gemini:Addon-1.1").tPackage:GetAddon("RaidCore")
 local mod = core:NewEncounter("PrimeEvolutionaryOperant", 91, 0, 475)
 if not mod then return end
 
-mod:RegisterTrigMob("ALL", { "Prime Evolutionary Operant", "Prime Phage Distributor" })
+mod.lineList = {}
+
+mod:RegisterTrigMob("ANY", { "Prime Evolutionary Operant", "Prime Phage Distributor" })
 mod:RegisterEnglishLocale({
     -- Unit names.
     ["Prime Evolutionary Operant"] = "Prime Evolutionary Operant",
@@ -84,7 +86,7 @@ local BUFF_COMPROMISED_CIRCUITRY = 48735
 ----------------------------------------------------------------------------------------------------
 function mod:OnBossEnable()
 	Print(("Module %s loaded"):format(mod.ModuleName))
-	Apollo.RegisterEventHandler("RC_UnitCreated", "OnUnitCreated", self)
+	--Apollo.RegisterEventHandler("RC_UnitCreated", "OnUnitCreated", self)
     Apollo.RegisterEventHandler("RC_UnitStateChanged", "OnUnitStateChanged", self)
     Apollo.RegisterEventHandler("CHAT_DATACHRON", "OnChatDC", self)
 
@@ -96,6 +98,10 @@ function mod:OnBossEnable()
  	Apollo.RegisterEventHandler("DEBUFF_REMOVED", "OnDebuffRemoved", self)
 
     Apollo.RegisterEventHandler("RAID_WIPE", "OnReset", self)
+	
+	self.unitTimer = ApolloTimer.Create(0.5, true, "AddY83", mod)
+	self.unitList = {}
+
 	--core:CombatInterface_Activate("FullEnable")
 	--core:InterfaceSwitch(5)
 --ApplyCCState(eState, unitTarget) --test cc on middle
@@ -105,16 +111,21 @@ end
 function mod:OnReset()
 	--Print("wipe")
 	core:ResetMarks()
+	self.unitList = {}
+	self.unitTimer = nil
+	self.lineList = {}
 end
 
 function mod:OnUnitCreated(unit, sName)
-	if "Organic Incinerator" == sName then
-			core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
-	end
+	
 end
 
 function mod:GetL()
 	return self.L
+end
+
+function mod:GetlineList()
+	return self.lineList
 end
 
 function core:PreCombatDetect_Y83(unit)
@@ -123,7 +134,7 @@ function core:PreCombatDetect_Y83(unit)
 		--Print(unit:GetName())
 		if unit:GetName() == mod:GetL()["Organic Incinerator"] then
 			--Print("unit found")
-			core:AddPixie(unit:GetId(), 2, unit, nil, "Red", 10, 100, -30)
+			table.insert(mod:GetlineList(), unit)
 		end
 	end
 end
@@ -180,7 +191,8 @@ end
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
     if bInCombat then
         if sName == self.L["Prime Evolutionary Operant"] then
-            core:AddUnit(unit)
+            --core:AddUnit(unit)
+			table.insert(self.unitList, unit)
             core:WatchUnit(unit)
             local tPosition = unit:GetPosition()
             if tPosition.x < ORGANIC_INCINERATOR.x then
@@ -189,12 +201,31 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
                 core:MarkUnit(unit, 1, "R")
             end
         elseif sName == self.L["Prime Phage Distributor"] then
-            core:AddUnit(unit)
+            --core:AddUnit(unit)
+			--Print("pre timer")
+			table.insert(self.unitList, unit)
             core:MarkUnit(unit, 1, "M")
             core:WatchUnit(unit)
+			self.unitTimer:Start()
             core:AddBar("NEXT_IRRADIATE", self.L["~Next irradiate"], 27, true)
 		end
     end
+end
+
+function mod:AddY83()
+	self.unitTimer:Stop()
+	--Print("timer triggered")
+	--Print("table size: " .. tostring(#self.unitList))
+	for idx, vUnit in ipairs(self.unitList) do
+		--Print("in loop")
+		if vUnit then
+			--Print(vUnit:GetName())
+			core:AddUnit(vUnit)
+		end
+	end
+	
+	--Print("table size: " .. tostring(#self.lineList))
+	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Red", 10, 100, -30)
 end
 
 function mod:OnChatDC(message)
