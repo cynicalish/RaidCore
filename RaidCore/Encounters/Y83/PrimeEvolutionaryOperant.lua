@@ -217,14 +217,17 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
 			table.insert(self.unitList, unit)
             core:MarkUnit(unit, 1, "M")
             core:WatchUnit(unit)
-			self.unitTimer:Start()
-            core:AddBar("NEXT_IRRADIATE", self.L["~Next irradiate"], 27, true)
+			core:AddBar("NEXT_IRRADIATE", self.L["~Next irradiate"], 27, true)
+			if self.unitTimer then 
+				self.unitTimer:Start()
+			end
 		end
     end
 end
 
 function mod:AddY83()
 	self.unitTimer:Stop()
+	self.unitTimer = nil
 	--Print("timer triggered")
 	--Print("table size: " .. tostring(#self.unitList))
 	for idx, vUnit in ipairs(self.unitList) do
