@@ -166,7 +166,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 	--Print("after tSpell if check")
 	if splId == DEBUFF_STRAIN_INCUBATION then
 		--Print("in strain incubation")
-        core:MarkUnit(unit, nil, "Incubation")
+        core:MarkUnit(unit, 10, "T.T")
 		if unit == GetPlayerUnit() then
 			core:AddMsg("INCUBATION", "Strain Incubation on YOU!!", 5, "Beware", "Red")
 		end
