@@ -239,8 +239,8 @@ function mod:AddY83()
 	end
 	
 	--Print("table size: " .. tostring(#self.lineList))
-	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Green", 10, 20, -28)
-	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Red", 10, 100, -60)
+	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Green", 10, 20, -27)
+	core:AddPixie(self.lineList[#self.lineList]:GetId() .. "_2", 2, self.lineList[#self.lineList], nil, "Red", 10, 100, -60)
 end
 
 function mod:OnChatDC(message)
