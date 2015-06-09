@@ -154,7 +154,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 	--Print("debuff applied")
 	
 	local eventTime = GameLib.GetGameTime()
-	local tSpell = GameLib.GetSpell(splId)
+	--[[local tSpell = GameLib.GetSpell(splId)
     local strSpellName
 	--Print("tSpell if check")
     if tSpell then
@@ -162,7 +162,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 		--Print(strSpellName)
     else
         --Print("Unknown tSpell")
-    end
+    end--]]
 	--Print("after tSpell if check")
 	if splId == DEBUFF_STRAIN_INCUBATION then
 		--Print("in strain incubation")
@@ -170,11 +170,11 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 		if unit == GetPlayerUnit() then
 			core:AddMsg("INCUBATION", "Strain Incubation on YOU!!", 5, "Beware", "Red")
 		end
-	elseif splId == DEBUFF_RADIATION_BATH then
+	--[[elseif splId == DEBUFF_RADIATION_BATH then
 		if unit == GetPlayerUnit() then
 			core:AddMsg("BATH", ("Radiation Bath on %s"):format(unitName), 5, "RunAway", "Blue")
 		end
-		core:MarkUnit(unit, nil, "Radiation\nBath")	
+		core:MarkUnit(unit, nil, "Radiation\nBath")	--]]
     end
 
 end
@@ -185,10 +185,10 @@ function mod:OnDebuffRemoved(unitName, splId, unit)
        	if unitId then
     		core:DropMark(unitId)
     	end
-	elseif splId == DEBUFF_RADIATION_BATH then
+	--[[elseif splId == DEBUFF_RADIATION_BATH then
 		if unitId then
     		core:DropMark(unitId)
-    	end
+    	end--]]
     end
 end
 
@@ -239,6 +239,7 @@ function mod:AddY83()
 	end
 	
 	--Print("table size: " .. tostring(#self.lineList))
+	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Green", 10, 20, -28)
 	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Red", 10, 100, -60)
 end
 
@@ -246,22 +247,7 @@ function mod:OnChatDC(message)
     local sPlayerNameIrradiate = message:match(self.L["(.*) is being irradiated"])
 	local UnitIrrad = nil
     if sPlayerNameIrradiate then
-		--[[for i = 1, GroupLib.GetMemberCount() do
-        	local tUnit = GroupLib.GetUnitForGroupMember(i)
-        	if tUnit then
-            	local sName = tUnit:GetName():gsub(NO_BREAK_SPACE, " ")
-				if sName == sPlayerNameIrradiate then
-					UnitIrrad = tUnit
-				end
-			end
-		end
 		
-		if UnitIrrad then
-			if UnitIrrad == GetPlayerUnit() then
-				core:AddMsg("BATH", ("Radiation Bath on YOU!!"), 5, "RunAway", "Blue")
-			end
-			--core:MarkUnit(UnitIrrad, nil, "Radiation\nBath")
-		end--]]
 		if sPlayerNameIrradiate == GetPlayerUnit():GetName() then 
 			core:AddMsg("BATH", ("Radiation Bath on YOU!!"), 5, "RunAway", "Blue")
 		else
