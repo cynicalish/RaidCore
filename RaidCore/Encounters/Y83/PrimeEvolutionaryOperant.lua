@@ -81,6 +81,11 @@ local BUFF_NANOSTRAIN_INFUSION = 50075
 -- Buff on bosses. The boss called "Prime Phage Distributor" have this buff, others not.
 local BUFF_COMPROMISED_CIRCUITRY = 48735
 
+-- safe spots
+local SAFE_ZONE_LEFT = { x = 1238.644, y = -800.505, z = 894.101 }
+local SAFE_ZONE_RIGHT = { x = 1300.937, y = -800.505, z = 895.701 }
+local SAFE_ZONE_MIDDLE = { x = 1267.703, y = -800.505, z = 842.803 }
+
 ----------------------------------------------------------------------------------------------------
 -- Encounter description.
 ----------------------------------------------------------------------------------------------------
@@ -104,10 +109,9 @@ function mod:OnBossEnable()
 	self.unitTimer = ApolloTimer.Create(0.5, true, "AddY83", mod)
 	self.unitList = {}
 
-	--core:CombatInterface_Activate("FullEnable")
-	--core:InterfaceSwitch(5)
---ApplyCCState(eState, unitTarget) --test cc on middle
-	--Print("Event registered")
+	core:SetWorldMarker("SZL", "X", SAFE_ZONE_LEFT)
+   	core:SetWorldMarker("SZR", "X", SAFE_ZONE_RIGHT)
+  	core:SetWorldMarker("SZM", "X", SAFE_ZONE_MIDDLE)
 end
 
 function mod:OnReset()
@@ -239,7 +243,7 @@ function mod:AddY83()
 	end
 	
 	--Print("table size: " .. tostring(#self.lineList))
-	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Green", 10, 20, -27)
+	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Green", 10, 20, -28)
 	core:AddPixie(self.lineList[#self.lineList]:GetId() .. "_2", 2, self.lineList[#self.lineList], nil, "Red", 10, 100, -60)
 end
 
