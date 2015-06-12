@@ -129,17 +129,17 @@ function Lib:NewLocale(application, locale, isDefault, silent)
 		Lib.appnames[app] = application
 	end
 	
-	--if locale ~= GetLocale() and not isDefault then
-	--	return -- translations are not needed
-	--end
+	if locale ~= GetLocale() and not isDefault then
+		return -- translations are not needed
+	end
 	
 	registering = app -- remember globally for writeproxy and writedefaultproxy
 	
-	if isDefault then
+	--if isDefault then
 		return writedefaultproxy
-	end
+	--end
 	
-	return writeproxy
+	--return writeproxy
 end
 
 
