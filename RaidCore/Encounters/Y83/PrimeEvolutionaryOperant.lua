@@ -207,15 +207,15 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             core:WatchUnit(unit)
             local tPosition = unit:GetPosition()
             if tPosition.x < ORGANIC_INCINERATOR.x then
-                core:MarkUnit(unit, 1, "L")
+                core:MarkUnit(unit, 45, "L")
             else
-                core:MarkUnit(unit, 1, "R")
+                core:MarkUnit(unit, 45, "R")
             end
         elseif sName == self.L["Prime Phage Distributor"] then
             --core:AddUnit(unit)
 			--Print("pre timer")
 			table.insert(self.unitList, unit)
-            core:MarkUnit(unit, 1, "M")
+            core:MarkUnit(unit, 45, "M")
             core:WatchUnit(unit)
 			core:AddBar("NEXT_IRRADIATE", self.L["~Next irradiate"], 27, true)
 			if self.unitTimer then 
