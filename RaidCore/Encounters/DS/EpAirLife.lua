@@ -206,9 +206,9 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 
 		if mod:GetSetting("OtherLightningMarkers") then
 			if lightningCount <= 2 then
-            	core:MarkUnit(unit, nil, "Lightning\n1")
+            	core:MarkUnit(unit, nil, "1")
 			else
-				core:MarkUnit(unit, nil, "Lightning\n2")
+				core:MarkUnit(unit, nil, "2")
 			end
         end
 		
