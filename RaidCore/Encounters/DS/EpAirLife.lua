@@ -223,12 +223,11 @@ function mod:OnDebuffRemoved(unitName, splId, unit)
     local splName = GameLib.GetSpell(splId):GetName()
     if splId == 70440 then
         core:RemoveUnit(unit:GetId())
+		core:DropMark(unit:GetId())
     elseif splName == "Life Force Shackle" then
         core:DropMark(unit:GetId())
     elseif splName == "Lightning Strike" then
         core:DropMark(unit:GetId())
-	elseif splName == "Twirl" then
-		core:DropMark(unit:GetId())
     end
 end
 
