@@ -95,7 +95,7 @@ local CheckTwirlTimer = nil
 local twirl_units = {}
 local twirlCount = 0
 local lightningCount = 0
-
+local lightningSet = 1
 --------------------------------------------------------------------------------
 -- Initialization
 --
@@ -124,7 +124,7 @@ function mod:OnReset()
     twirl_units = {}
     twirlCount = 0
 	lightningCount = 0
-
+	lightningSet = 1
     core:StopBar("THORN")
     core:StopBar("MIDEND")
     core:StopBar("MIDPHASE")
@@ -203,7 +203,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 		--modifications:
 
 		lightningCount = lightningCount + 1
-
+		
 		if mod:GetSetting("OtherLightningMarkers") then
 			if lightningCount <= 2 then
             	core:MarkUnit(unit, nil, "1")
@@ -227,6 +227,8 @@ function mod:OnDebuffRemoved(unitName, splId, unit)
         core:DropMark(unit:GetId())
     elseif splName == "Lightning Strike" then
         core:DropMark(unit:GetId())
+	elseif splName == "Twirl" then
+		core:DropMark(unit:GetId())
     end
 end
 
@@ -261,7 +263,7 @@ function mod:CheckTwirlTimer()
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         local eventTime = GameLib.GetGameTime()
         local playerUnit = GameLib.GetPlayerUnit()
         myName = playerUnit:GetName()
