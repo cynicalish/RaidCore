@@ -204,7 +204,7 @@ end
 --]]
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Prime Evolutionary Operant"] then
             --core:AddUnit(unit)
 			table.insert(self.unitList, unit)

@@ -189,7 +189,7 @@ function mod:OnUnitDestroyed(unit, sName)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Hydroflux"] then
             core:AddUnit(unit)
             core:WatchUnit(unit)
@@ -198,7 +198,7 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             strMyName = uPlayer:GetName()
             midphase = false
             encounter_started = true
-            core:RaidDebuff()
+       
             core:AddUnit(unit)
             core:WatchUnit(unit)
             core:AddBar("MIDPHASE", self.L["Middle Phase"], 75, mod:GetSetting("SoundMidphase"))

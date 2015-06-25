@@ -439,7 +439,7 @@ function mod:ResetBuffCount()
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Avatus"] and not encounter_started then
             local eventTime = GameLib.GetGameTime()
             encounter_started = true

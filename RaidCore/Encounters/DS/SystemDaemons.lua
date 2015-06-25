@@ -458,7 +458,7 @@ function mod:OnSyncRcv(sync, parameter)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Null System Daemon"] or sName == self.L["Binary System Daemon"] then
             if sName == self.L["Null System Daemon"] then
                 core:MarkUnit(unit, 0, self.L["MARKER south"])
@@ -473,7 +473,7 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             playerName = GameLib.GetPlayerUnit():GetName()
             core:AddUnit(unit)
             core:WatchUnit(unit)
-            core:RaidDebuff()
+           
             core:AddSync("NORTH_SURGE", 5)
             core:AddSync("SOUTH_SURGE", 5)
             if mod:GetSetting("OtherDisconnectTimer") then

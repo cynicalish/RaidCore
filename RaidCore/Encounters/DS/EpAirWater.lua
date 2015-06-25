@@ -161,7 +161,7 @@ function mod:CheckTwirlTimer()
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         local eventTime = GameLib.GetGameTime()
         local playerUnit = GameLib.GetPlayerUnit()
         myName = playerUnit:GetName()
@@ -177,8 +177,7 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             CheckTwirlTimer = nil
             core:AddUnit(unit)
             core:UnitBuff(unit)
-            core:UnitDebuff(playerUnit)
-            core:RaidDebuff()
+            
             core:AddBar("MIDPHASE", self.L["Middle Phase"], 60, mod:GetSetting("SoundMidphase"))
             core:AddBar("TOMB", self.L["~Frost Tombs"], 30, mod:GetSetting("SoundFrostTombs"))
         end

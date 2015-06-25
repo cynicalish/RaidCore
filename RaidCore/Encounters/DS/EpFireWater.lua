@@ -262,7 +262,7 @@ function mod:OnChatNPCSay(message)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Hydroflux"] then
             core:AddUnit(unit)
             local unitId = unit:GetId()
@@ -278,7 +278,6 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             prevBomb = 0
 
             core:AddUnit(unit)
-            core:RaidDebuff()
             core:AddBar("BOMBS", self.L["BOMBS"], 30)
         end
     end

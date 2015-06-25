@@ -135,12 +135,12 @@ function mod:OnDebuffApplied(unitName, splId)
 end
 
 function mod:OnUnitEnteredCombat(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Abstract Augmentation Algorithm"] then
             prevInt = ""
             castCount = 1
             core:AddUnit(unit)
-            core:RaidDebuff()
+           
             core:AddBar("DATA", self.L["[%u] INTERRUPT"]:format(castCount), 7)
             core:AddBar("EMPOWER", self.L["EMPOWER"]:format(""), 30, 1)
         elseif sName == self.L["Quantum Processing Unit"] then

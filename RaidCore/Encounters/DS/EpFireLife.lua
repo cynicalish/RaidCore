@@ -164,7 +164,7 @@ function mod:OnSpellCastStart(unitName, castName, unit)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Visceralus"] then
             core:AddUnit(unit)
             core:WatchUnit(unit)
@@ -174,7 +174,6 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             uPlayer = GameLib.GetPlayerUnit()
             strMyName = uPlayer:GetName()
             core:AddUnit(unit)
-            core:RaidDebuff()
             core:AddBar("MID", self.L["MIDPHASE"], 90)
         end
     end

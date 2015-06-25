@@ -154,20 +154,20 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Warmonger Agratha"] then
             prev, first = 0, true
             boss = sName
             core:AddUnit(unit)
             core:WatchUnit(unit)
-            core:RaidDebuff()
+          
             core:AddBar("BOMB", self.L["BOMB"], 23)
         elseif sName == self.L["Warmonger Talarii"] then
             prev = 0
             boss = sName
             core:AddUnit(unit)
             core:WatchUnit(unit)
-            core:RaidDebuff()
+        
             core:AddBar("KNOCK", self.L["KNOCKBACK"], 23)
         elseif sName == self.L["Grand Warmonger Tar'gresh"] then
             core:AddUnit(unit)

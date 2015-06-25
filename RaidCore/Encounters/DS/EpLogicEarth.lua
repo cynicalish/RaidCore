@@ -151,7 +151,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Megalith"] then
             core:AddUnit(unit)
         elseif sName == self.L["Mnemesis"] then
@@ -161,7 +161,6 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             core:AddBar("STAR", self.L["STARS"]:format(""), 60)
             core:AddUnit(unit)
             core:WatchUnit(unit)
-            core:RaidDebuff()
         elseif sName == self.L["Crystalline Matrix"] then
             pilarCount = pilarCount + 1
         end

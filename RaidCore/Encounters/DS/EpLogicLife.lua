@@ -223,7 +223,7 @@ function mod:OnSpellCastStart(unitName, castName, unit)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Visceralus"] then
             core:AddUnit(unit)
             core:WatchUnit(unit)
@@ -238,7 +238,6 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             core:WatchUnit(unit)
             midphase = false
             core:AddUnit(unit)
-            core:RaidDebuff()
             core:AddBar("DEFRAG", self.L["~DEFRAG CD"], 21, mod:GetSetting("SoundDefrag"))
             core:AddBar("ENRAGE", self.L["ENRAGE"], 480, mod:GetSetting("SoundEnrage"))
         end

@@ -290,7 +290,7 @@ function mod:OnCombatLogHeal(tArgs)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Gloomclaw"] then
             waveCount, ruptCount, prev = 0, 0, 0
             section = 1
