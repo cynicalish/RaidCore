@@ -116,7 +116,7 @@ end
 
 function mod:OnSpellCastStart(unitName, castName, unit)
 	if unitName == self.L["Megalith"] and castName == "Fierce Swipe" then
-		core:AddBar("CLEAVE", "Cleave", 16, mod:GetSetting("SoundTornadoCountdown"))
+		core:AddBar("CLEAVE", "Cleave", 16, false)
     elseif unitName == self.L["Megalith"] and castName == self.L["Raw Power"] then
         midphase = true
         core:AddMsg("RAW", self.L["Raw Power"]:upper(), 5, mod:GetSetting("SoundMidphase", "Alert"))
@@ -157,7 +157,7 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             core:AddUnit(unit)
             core:WatchUnit(unit)
             core:MarkUnit(unit, nil, self.L["EARTH"])
-			core:AddBar("CLEAVE", "Cleave", 16, mod:GetSetting("SoundTornadoCountdown"))
+			core:AddBar("CLEAVE", "Cleave", 16, false)
 
         elseif sName == self.L["Aileron"] then
             prev = 0
