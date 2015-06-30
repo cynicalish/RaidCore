@@ -132,7 +132,7 @@ function mod:OnReset()
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Phagetech Commander"] then
         elseif sName == self.L["Phagetech Augmentor"] or sName == self.L["Phagetech Fabricator"] then
             core:WatchUnit(unit)

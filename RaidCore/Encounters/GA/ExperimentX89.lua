@@ -135,7 +135,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Experiment X-89"] then
             local playerUnit = GameLib.GetPlayerUnit()
             playerName = playerUnit:GetName()

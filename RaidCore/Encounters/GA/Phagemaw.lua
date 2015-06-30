@@ -80,7 +80,7 @@ function mod:OnChatDC(message)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Phage Maw"] then
             core:AddUnit(unit)
         end

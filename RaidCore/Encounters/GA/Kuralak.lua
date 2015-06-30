@@ -209,7 +209,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 end
 
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
-    if unit:GetType() == "NonPlayer" and bInCombat then
+    if unit:GetType() == "NonPlayer" then
         if sName == self.L["Kuralak the Defiler"] then
             core:AddUnit(unit)
             eggsCount, siphonCount, outbreakCount = 2, 1, 0
