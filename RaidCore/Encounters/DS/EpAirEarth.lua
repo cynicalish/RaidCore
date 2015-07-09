@@ -165,7 +165,7 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             if mod:GetSetting("LineCleaveAileron") then
                 core:AddPixie(unit:GetId(), 2, unit, nil, "Green", 10, 15, 0)
             end
-            --core:AddBar("SCELL", self.L["Supercell"], 65, mod:GetSetting("SoundSupercell"))
+            core:AddBar("SCELL", self.L["Supercell"], 65, mod:GetSetting("SoundSupercell"))
             core:AddBar("TORNADO", self.L["~Tornado Spawn"], 16, mod:GetSetting("SoundTornadoCountdown"))
             core:AddUnit(unit)
             core:WatchUnit(unit)
