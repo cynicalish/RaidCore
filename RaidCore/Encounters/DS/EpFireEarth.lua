@@ -72,7 +72,7 @@ function mod:OnUnitCreated(unit, sName)
 end
 
 function mod:OnUnitDestroyed(unit, sName)
-    elseif sName == self.L["Flame Wave"] then
+    if sName == self.L["Flame Wave"] then
         local unitId = unit:GetId()
         if unitId then
             core:DropPixie(unitId)
