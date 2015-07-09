@@ -90,21 +90,16 @@ function mod:OnBossEnable()
     Apollo.RegisterEventHandler("SPELL_CAST_END", "OnSpellCastEnd", self)
     Apollo.RegisterEventHandler("DEBUFF_APPLIED", "OnDebuffApplied", self)
     Apollo.RegisterEventHandler("DEBUFF_REMOVED", "OnDebuffRemoved", self)
-    Apollo.RegisterEventHandler("RAID_WIPE", "OnReset", self)
+	midphase = false
+	encounter_started = false
+
+    uPlayer = GameLib.GetPlayerUnit()
+    strMyName = uPlayer:GetName()
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
-
-function mod:OnReset()
-    core:StopBar("MIDPHASE")
-    core:StopBar("GRAVE")
-    core:StopBar("PRISON")
-    core:StopBar("DEFRAG")
-    midphase = false
-    encounter_started = false
-end
 
 function mod:OnSpellCastStart(unitName, castName, unit)
     if unitName == self.L["Mnemesis"] then
@@ -194,11 +189,8 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
             core:AddUnit(unit)
             core:WatchUnit(unit)
         elseif sName == self.L["Mnemesis"] then
-            uPlayer = GameLib.GetPlayerUnit()
-            strMyName = uPlayer:GetName()
             midphase = false
             encounter_started = true
-       
             core:AddUnit(unit)
             core:WatchUnit(unit)
             core:AddBar("MIDPHASE", self.L["Middle Phase"], 75, mod:GetSetting("SoundMidphase"))
