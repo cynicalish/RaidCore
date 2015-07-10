@@ -108,6 +108,14 @@ function mod:OnBossEnable()
     Apollo.RegisterEventHandler("DEBUFF_APPLIED", "OnDebuffApplied", self)
     Apollo.RegisterEventHandler("DEBUFF_REMOVED", "OnDebuffRemoved", self)
     Apollo.RegisterEventHandler("RAID_WIPE", "OnReset", self)
+
+	last_thorns = 0
+    last_twirl = 0
+    midphase = false
+	twirl_units = {}
+    twirlCount = 0
+	lightningCount = 0
+	lightningSet = 1
 end
 
 --------------------------------------------------------------------------------
@@ -115,16 +123,10 @@ end
 --
 
 function mod:OnReset()
-    last_thorns = 0
-    last_twirl = 0
-    midphase = false
     if CheckTwirlTimer then
         self:CancelTimer(CheckTwirlTimer)
     end
-    twirl_units = {}
-    twirlCount = 0
-	lightningCount = 0
-	lightningSet = 1
+
     core:StopBar("THORN")
     core:StopBar("MIDEND")
     core:StopBar("MIDPHASE")
