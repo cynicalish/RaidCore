@@ -47,6 +47,7 @@ function mod:OnBossEnable()
     Apollo.RegisterEventHandler("RC_UnitCreated", "OnUnitCreated", self)
     Apollo.RegisterEventHandler("RC_UnitDestroyed", "OnUnitDestroyed", self)
 	Apollo.RegisterEventHandler("SPELL_CAST_START", "OnSpellCastStart", self)
+	Apollo.RegisterEventHandler("SPELL_CAST_END", "OnSpellCastEnd", self)
 	Apollo.RegisterEventHandler("CHAT_DATACHRON", "OnChatDC", self)
 end
 
@@ -57,10 +58,14 @@ end
 function mod:OnSpellCastStart(unitName, castName, unit)
     if unitName == self.L["Pyrobane"] and castName == self.L["Ragnarok"] then
 		core:AddMsg("MIDMSG", "MIDPHASE GET ON ROCKS!!", 5, "Alarm", "Red")
-		core:AddBar("MID2", self.L["MIDPHASE"], 120)
     end
 end
 
+function mod:OnSpellCastEnd(unitName, castName)
+    if unitName == self.L["Pyrobane"] and castName == self.L["Ragnarok"] then
+		core:AddBar("MID", self.L["MIDPHASE"], 90, true)
+    end
+end
 
 function mod:OnUnitCreated(unit, sName)
 	if sName == self.L["Flame Wave"] then
@@ -84,10 +89,10 @@ function mod:OnUnitStateChanged(unit, bInCombat, sName)
     if unit:GetType() == "NonPlayer" then
         if sName == self.L["Megalith"] then
             core:AddUnit(unit)
+			core:AddBar("MID", self.L["MIDPHASE"], 95, true)
         elseif sName == self.L["Pyrobane"] then
             core:AddUnit(unit)
 			core:WatchUnit(unit)
-            core:AddBar("MID1", self.L["MIDPHASE"], 95, true)
         end
     end
 end
@@ -105,3 +110,4 @@ function mod:OnChatDC(message)
 		core:AddMsg("QUAKE9", "JUMP !", 3, nil)
     end
 end
+
