@@ -183,6 +183,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
         end
 
         if mod:GetSetting("OtherTwirlPlayerMarkers") then
+			core:DropMark(unit:GetId())
             core:MarkUnit(unit, nil, self.L["Twirl"]:upper())
         end
         core:AddUnit(unit)
@@ -192,6 +193,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
         end
     elseif splName == "Life Force Shackle" then
         if mod:GetSetting("OtherNoHealDebuffPlayerMarkers") then
+			core:DropMark(unit:GetId())
             core:MarkUnit(unit, nil, self.L["NO HEAL DEBUFF"])
         end
         if unitName == strMyName and mod:GetSetting("OtherNoHealDebuff") then
@@ -207,6 +209,7 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 		lightningCount = lightningCount + 1
 		
 		if mod:GetSetting("OtherLightningMarkers") then
+			core:DropMark(unit:GetId())
 			if lightningCount <= 2 then
             	core:MarkUnit(unit, nil, "1")
 			else
