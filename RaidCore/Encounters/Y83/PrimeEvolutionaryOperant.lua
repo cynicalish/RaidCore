@@ -82,9 +82,9 @@ local BUFF_NANOSTRAIN_INFUSION = 50075
 local BUFF_COMPROMISED_CIRCUITRY = 48735
 
 -- safe spots
-local SAFE_ZONE_LEFT = { x = 1238.644, y = -800.505, z = 894.101 }
-local SAFE_ZONE_RIGHT = { x = 1300.937, y = -800.505, z = 895.701 }
-local SAFE_ZONE_MIDDLE = { x = 1267.703, y = -800.505, z = 842.803 }
+local SAFE_ZONE_WEST = { x = 1238.644, y = -800.505, z = 894.101 }
+local SAFE_ZONE_EAST = { x = 1300.937, y = -800.505, z = 895.701 }
+local SAFE_ZONE_NORTH = { x = 1267.703, y = -800.505, z = 842.803 }
 
 ----------------------------------------------------------------------------------------------------
 -- Encounter description.
@@ -109,9 +109,9 @@ function mod:OnBossEnable()
 	self.unitTimer = ApolloTimer.Create(0.5, true, "AddY83", mod)
 	self.unitList = {}
 
-	core:SetWorldMarker("SZL", "X", SAFE_ZONE_LEFT)
-   	core:SetWorldMarker("SZR", "X", SAFE_ZONE_RIGHT)
-  	core:SetWorldMarker("SZM", "X", SAFE_ZONE_MIDDLE)
+	core:SetWorldMarker("SZW", "X", SAFE_ZONE_WEST)
+   	core:SetWorldMarker("SZE", "X", SAFE_ZONE_EAST)
+  	core:SetWorldMarker("SZN", "X", SAFE_ZONE_NORTH)
 end
 
 function mod:OnReset()
@@ -206,20 +206,17 @@ end
 function mod:OnUnitStateChanged(unit, bInCombat, sName)
     if unit:GetType() == "NonPlayer" then
         if sName == self.L["Prime Evolutionary Operant"] then
-            --core:AddUnit(unit)
 			table.insert(self.unitList, unit)
             core:WatchUnit(unit)
             local tPosition = unit:GetPosition()
             if tPosition.x < ORGANIC_INCINERATOR.x then
-                core:MarkUnit(unit, 45, "L")
+                core:MarkUnit(unit, 45, "W")
             else
-                core:MarkUnit(unit, 45, "R")
+                core:MarkUnit(unit, 45, "E")
             end
         elseif sName == self.L["Prime Phage Distributor"] then
-            --core:AddUnit(unit)
-			--Print("pre timer")
 			table.insert(self.unitList, unit)
-            core:MarkUnit(unit, 45, "M")
+            core:MarkUnit(unit, 45, "N")
             core:WatchUnit(unit)
 			core:AddBar("NEXT_IRRADIATE", self.L["~Next irradiate"], 27, true)
 			if self.unitTimer then 

@@ -1001,12 +1001,10 @@ function RaidCore:MarkUnit(unit, location, mark)
 
             self.mark[key].frame = markFrame
 			self:SetMarkToUnit(unit, mark)
-        elseif mark then
+        --[[elseif mark then
             self.mark[key].number = mark
-            self.mark[key].frame:FindChild("Name"):SetText(self.mark[key].number)
-			self:SetMarkToUnit(unit, mark)
+            self.mark[key].frame:FindChild("Name"):SetText(self.mark[key].number)--]]
         end
-        
     end
 end
 
