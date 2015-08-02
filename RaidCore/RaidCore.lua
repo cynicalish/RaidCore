@@ -49,7 +49,7 @@ local _tCurrentEncounter = nil
 
 local trackMaster = Apollo.GetAddon("TrackMaster")
 local markCount = 0
-local AddonVersion = 207231501
+local AddonVersion = 208021501
 local VCReply, VCtimer = {}, nil
 local CommChannelTimer = nil
 local empCD, empTimer = 5, nil
@@ -1000,11 +1000,13 @@ function RaidCore:MarkUnit(unit, location, mark)
             self:MarkerVisibilityHandler(markFrame)
 
             self.mark[key].frame = markFrame
+			self:SetMarkToUnit(unit, mark)
         elseif mark then
             self.mark[key].number = mark
             self.mark[key].frame:FindChild("Name"):SetText(self.mark[key].number)
+			self:SetMarkToUnit(unit, mark)
         end
-        self:SetMarkToUnit(unit, mark)
+        
     end
 end
 
