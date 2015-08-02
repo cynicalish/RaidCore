@@ -251,6 +251,8 @@ function DisplayBlock:RefreshUnits()
             local raidBar = bar.barFrame
             if not unit:IsDead() then
                 local health = unit:GetHealth()
+				local maxHealth = unit:GetMaxHealth()
+				if maxHealth then raidBar:SetMaxTime(maxHealth) end
                 if health then raidBar:UpdateProgress(health) end
             else
                 self.infos[raidBar.Key] = nil

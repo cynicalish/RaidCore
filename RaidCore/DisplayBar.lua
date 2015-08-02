@@ -118,6 +118,10 @@ function DisplayBar:SetHeight(height)
     text:SetAnchorOffsets(left, top, right, bottom)
 end
 
+function DisplayBar:SetMaxTime(maxTime)
+	self.MaxTime = maxTime
+end
+
 function DisplayBar:SetBGColor(color)
     self.Frame:SetBGColor(color)
 end
