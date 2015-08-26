@@ -76,6 +76,7 @@ function mod:OnBossEnable()
     Apollo.RegisterEventHandler("RC_UnitDestroyed", "OnUnitDestroyed", self)
     Apollo.RegisterEventHandler("RC_UnitStateChanged", "OnUnitStateChanged", self)
     Apollo.RegisterEventHandler("SPELL_CAST_START", "OnSpellCastStart", self)
+	--Apollo.RegisterEventHandler("SPELL_CAST_STOP", "OnSpellCastStop", self)
     Apollo.RegisterEventHandler("CHAT_DATACHRON", "OnChatDC", self)
 	--Apollo.RegisterEventHandler("RAID_WIPE", "OnReset", self)
 
@@ -120,7 +121,8 @@ function mod:OnSpellCastStart(unitName, castName, unit)
     elseif unitName == self.L["Megalith"] and castName == self.L["Raw Power"] then
         midphase = true
         core:AddMsg("RAW", self.L["Raw Power"]:upper(), 5, mod:GetSetting("SoundMidphase", "Alert"))
-    elseif unitName == self.L["Aileron"] and castName == self.L["Supercell"] then
+		--core:AddBar("CELL", self.L["Supercell"]:upper(), 80)
+    --elseif unitName == self.L["Aileron"] and castName == self.L["Supercell"] then
         local timeOfEvent = GameLib.GetGameTime()
         if timeOfEvent - prev > 30 then
             prev = timeOfEvent
@@ -144,7 +146,6 @@ function mod:OnChatDC(message)
     elseif message:find(self.L["fractured crust leaves it exposed"]) and midphase then
         midphase = false
         core:AddMsg("MOO", self.L["MOO !"], 5, "Info", mod:GetSetting("SoundMoO", "Blue"))
-        core:AddBar("RAW", self.L["Raw Power"]:upper(), 60, mod:GetSetting("SoundMidphase"))
     end
 end
 
