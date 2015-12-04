@@ -86,6 +86,7 @@ local SAFE_ZONE_WEST = { x = 1238.644, y = -800.505, z = 894.101 }
 local SAFE_ZONE_EAST = { x = 1300.937, y = -800.505, z = 895.701 }
 local SAFE_ZONE_NORTH = { x = 1267.703, y = -800.505, z = 842.803 }
 
+local first_inc = false
 ----------------------------------------------------------------------------------------------------
 -- Encounter description.
 ----------------------------------------------------------------------------------------------------
@@ -101,8 +102,8 @@ function mod:OnBossEnable()
     Apollo.RegisterEventHandler("DEBUFF_APPLIED", "OnDebuffApplied", self)
  	Apollo.RegisterEventHandler("DEBUFF_REMOVED", "OnDebuffRemoved", self)
 
-    Apollo.RegisterEventHandler("SPELL_CAST_START", "OnSpellCastStart", self)
-    Apollo.RegisterEventHandler("SPELL_CAST_END", "OnSpellCastEnd", self)
+    --Apollo.RegisterEventHandler("SPELL_CAST_START", "OnSpellCastStart", self)
+    --Apollo.RegisterEventHandler("SPELL_CAST_END", "OnSpellCastEnd", self)
 
     Apollo.RegisterEventHandler("RAID_WIPE", "OnReset", self)
 	
@@ -112,6 +113,7 @@ function mod:OnBossEnable()
 	core:SetWorldMarker("SZW", "X", SAFE_ZONE_WEST)
    	core:SetWorldMarker("SZE", "X", SAFE_ZONE_EAST)
   	core:SetWorldMarker("SZN", "X", SAFE_ZONE_NORTH)
+	first_inc = false
 end
 
 function mod:OnReset()
@@ -150,6 +152,7 @@ function core:PreCombatDetect_Y83(unit)
 		if unit:GetName() == mod:GetL()["Organic Incinerator"] then
 			--Print("unit found")
 			table.insert(mod:GetlineList(), unit)
+			--Print("table size: " .. tostring(#mod:GetlineList()))
 		end
 	end
 end
@@ -174,6 +177,11 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 		if unit == GetPlayerUnit() then
 			core:AddMsg("INCUBATION", "Strain Incubation on YOU!!", 5, "Beware", "Red")
 		end
+		if not first_inc then
+			first_inc = true
+			core:AddBar("SI_CD", "Incubation Time Remaining", 40, true)
+			
+		end
 	--[[elseif splId == DEBUFF_RADIATION_BATH then
 		if unit == GetPlayerUnit() then
 			core:AddMsg("BATH", ("Radiation Bath on %s"):format(unitName), 5, "RunAway", "Blue")
@@ -188,6 +196,7 @@ function mod:OnDebuffRemoved(unitName, splId, unit)
 	if splId == DEBUFF_STRAIN_INCUBATION then
        	if unitId then
     		core:DropMark(unitId)
+			
     	end
 	--[[elseif splId == DEBUFF_RADIATION_BATH then
 		if unitId then
@@ -229,6 +238,7 @@ end
 function mod:AddY83()
 	self.unitTimer:Stop()
 	self.unitTimer = nil
+	--Apollo.RemoveEventHandler("UnitCreated", core)
 	--Print("timer triggered")
 	--Print("table size: " .. tostring(#self.unitList))
 	for idx, vUnit in ipairs(self.unitList) do
@@ -257,6 +267,8 @@ function mod:OnChatDC(message)
         -- Sometime it's 26s, sometime 27s or 28s.
         core:AddBar("NEXT_IRRADIATE", self.L["~Next irradiate"], 26, true)
     elseif message == self.L["ENGAGING TECHNOPHAGE TRASMISSION"] then
+		core:StopBar("SI_CD")
+		first_inc = false
         core:AddBar("NEXT_IRRADIATE", self.L["~Next irradiate"], 40, true)
     end
 end
