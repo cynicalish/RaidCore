@@ -122,6 +122,7 @@ function mod:OnReset()
 	self.unitList = {}
 	self.unitTimer = nil
 	self.lineList = {}
+	Apollo.RegisterEventHandler("UnitCreated", "PreCombatDetect_Y83", core)
 end
 
 function mod:OnUnitCreated(unit, sName)
@@ -238,7 +239,7 @@ end
 function mod:AddY83()
 	self.unitTimer:Stop()
 	self.unitTimer = nil
-	--Apollo.RemoveEventHandler("UnitCreated", core)
+	Apollo.RemoveEventHandler("UnitCreated", core)
 	--Print("timer triggered")
 	--Print("table size: " .. tostring(#self.unitList))
 	for idx, vUnit in ipairs(self.unitList) do
