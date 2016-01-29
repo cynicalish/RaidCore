@@ -1074,7 +1074,7 @@ function RaidCore:AddLine(... )
 end
 
 function RaidCore:AddPixie(... )
-    self.drawline:AddPixie(...)
+    return self.drawline:AddPixie(...)
 end
 
 function RaidCore:DropPixie(key)

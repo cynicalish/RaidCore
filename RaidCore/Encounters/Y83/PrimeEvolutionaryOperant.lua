@@ -80,13 +80,15 @@ local DEBUFF_STRAIN_INCUBATION = 49303
 local BUFF_NANOSTRAIN_INFUSION = 50075
 -- Buff on bosses. The boss called "Prime Phage Distributor" have this buff, others not.
 local BUFF_COMPROMISED_CIRCUITRY = 48735
-
+-- laser debuff
+local DEBUFF_PAIN_SUPPRESSORS = 81783
 -- safe spots
 local SAFE_ZONE_WEST = { x = 1238.644, y = -800.505, z = 894.101 }
 local SAFE_ZONE_EAST = { x = 1300.937, y = -800.505, z = 895.701 }
 local SAFE_ZONE_NORTH = { x = 1267.703, y = -800.505, z = 842.803 }
 
 local first_inc = false
+local laserline = nil
 ----------------------------------------------------------------------------------------------------
 -- Encounter description.
 ----------------------------------------------------------------------------------------------------
@@ -108,7 +110,13 @@ function mod:OnBossEnable()
     Apollo.RegisterEventHandler("RAID_WIPE", "OnReset", self)
 	
 	self.unitTimer = ApolloTimer.Create(0.5, true, "AddY83", mod)
+	self.unitTimer:Stop()
 	self.unitList = {}
+	
+	self.lasertimers = { yellow = ApolloTimer.Create(4, false, "yellow_laser", mod), 
+						 orange = ApolloTimer.Create(5, false, "orange_laser", mod) }
+	self.lasertimers.yellow:Stop()
+	self.lasertimers.orange:Stop()
 
 	core:SetWorldMarker("SZW", "X", SAFE_ZONE_WEST)
    	core:SetWorldMarker("SZE", "X", SAFE_ZONE_EAST)
@@ -121,7 +129,9 @@ function mod:OnReset()
 	core:ResetMarks()
 	self.unitList = {}
 	self.unitTimer = nil
+	self.lasertimers = {}
 	self.lineList = {}
+	laserline = nil
 	Apollo.RegisterEventHandler("UnitCreated", "PreCombatDetect_Y83", core)
 end
 
@@ -183,13 +193,24 @@ function mod:OnDebuffApplied(unitName, splId, unit)
 			core:AddBar("SI_CD", "Incubation Time Remaining", 40, true)
 			
 		end
-	--[[elseif splId == DEBUFF_RADIATION_BATH then
-		if unit == GetPlayerUnit() then
-			core:AddMsg("BATH", ("Radiation Bath on %s"):format(unitName), 5, "RunAway", "Blue")
+	elseif splId == DEBUFF_PAIN_SUPPRESSORS then
+		if laserline then
+			laserline.color = "Green"
+			self.lasertimers.yellow:Start()
+			self.lasertimers.orange:Start()
 		end
-		core:MarkUnit(unit, nil, "Radiation\nBath")	--]]
     end
 
+end
+
+function mod:yellow_laser()
+	--self.lasertimers.yellow:Stop()
+	laserline.color = "Yellow"
+end
+
+function mod:orange_laser()
+	--self.lasertimers.orange:Stop()
+	laserline.color = "White"
 end
 
 function mod:OnDebuffRemoved(unitName, splId, unit)
@@ -253,6 +274,7 @@ function mod:AddY83()
 	--Print("table size: " .. tostring(#self.lineList))
 	core:AddPixie(self.lineList[#self.lineList]:GetId(), 2, self.lineList[#self.lineList], nil, "Green", 10, 20, -27)
 	core:AddPixie(self.lineList[#self.lineList]:GetId() .. "_2", 2, self.lineList[#self.lineList], nil, "Red", 10, 100, -60)
+	laserline = core:AddPixie(self.lineList[#self.lineList]:GetId() .. "_0", 2, self.lineList[#self.lineList], nil, "White", 10, 100, 0)
 end
 
 function mod:OnChatDC(message)

@@ -160,6 +160,7 @@ function addon:AddPixie(key, type, uStart, uTarget, color, width, distance, rota
         self.pixie[key].rotation = rotation
         self.pixie[key].heading = heading or 0
         self:StartDrawing()
+		return self.pixie[key]
     end
 end
 
