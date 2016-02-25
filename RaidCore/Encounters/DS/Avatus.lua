@@ -246,7 +246,10 @@ end
 function mod:OnUnitCreated(unit, sName)
     local eventTime = GameLib.GetGameTime()
 	--Print("unit created: " .. sName)
-    if sName == self.L["Holo Hand"] then
+	if sName == self.L["Avatus"] then 
+		core:AddUnit(unit)
+        core:WatchUnit(unit)
+    elseif sName == self.L["Holo Hand"] then
         local unitId = unit:GetId()
         core:AddUnit(unit)
         core:WatchUnit(unit)
